@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 flake8 = "*"
 pydocstyle = "*"
+pipfile = "*"
+flack = "*"
+jinja2 = "*"
 
 [dev-packages]
 
