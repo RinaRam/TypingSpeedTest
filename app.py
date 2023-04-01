@@ -5,6 +5,8 @@ import requests
 from flask_wtf import Form
 from wtforms import SelectField
 
+def generate_text(lang, word, punctuation):
+    pass
 
 app = Flask(__name__)
 
@@ -14,8 +16,12 @@ class Buttons(Form):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     buttons = Buttons()
-
+    curr_language = 'en'
     if request.method == 'POST':
+        new_language = str(buttons.language.data)
+        if new_language != curr_language:
+            test_text = generate_text()
+        render_template('home.html', test_text=test_text, buttons=buttons)
         test_text = request.form['test_text']
         user_text = request.form['user_text']
         result = calculate_result(test_text, user_text)
