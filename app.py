@@ -3,24 +3,24 @@ from googletrans import Translator
 import re
 import requests
 from flask_wtf import Form
-from wtforms import SelectField
+from wtforms import SelectField, BooleanField
 
 curr_language = 'en'
 words_count = 100
-punctuation = True #False
+punctuation = False
 
-def generate_text(language, words_count, punctuation):
+def generate_text(language, words_count, punct):
     url = "https://fish-text.ru/get?&number=8"
     response = requests.get(url)
-
     if response.status_code == 200:
         data = response.json()['text']
+        
         if (language == 'en'):
             translator = Translator()
             data = translator.translate(data, dest='en')
-            data = data.text        
-
-        if not punctuation:
+            data = data.text
+    
+        if not punct:
             data = re.sub(r'[^\w\s]', '', data) 
         
         test_text = " ".join(data.split()[:words_count])
@@ -31,17 +31,19 @@ app = Flask(__name__)
 
 class Buttons(Form):
     language = SelectField('Language', choices=[('en', 'English'), ('ru', 'Russian')], default='en')
+    punct = BooleanField('Punctuation', default=False)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    global curr_language, words_count, punctuation
+    global curr_language, punctuation
     if request.method == 'POST':
         buttons = Buttons(request.form)
         new_language = str(buttons.language.data)
-        if new_language != curr_language:
+        new_punctuation = bool(buttons.punct.data)
+        if new_language != curr_language or new_punctuation != punctuation:
             curr_language = new_language
+            punctuation = new_punctuation
             test_text = generate_text(curr_language, words_count, punctuation)
-            path = request.path
             return render_template('home.html', test_text=test_text, buttons=buttons)
             
         test_text = request.form['test_text']
@@ -53,7 +55,7 @@ def home():
         buttons = Buttons(request.form)
         test_text = generate_text(curr_language, words_count, punctuation)
     
-iff     return render_template('home.html', test_text=test_text, buttons=buttons)
+    return render_template('home.html', test_text=test_text, buttons=buttons)
 
 def calculate_result(test_text, user_text):
     test_words = test_text.split()
@@ -63,5 +65,4 @@ def calculate_result(test_text, user_text):
     return accuracy
 
 if __name__ == '__main__':
-    print(curr_language)
     app.run(debug=True)
