@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Print Speed Test - Result</title>
+	<style>
+		.highlight {
+			background-color: #c8f7c5;
+		}
+		.error {
+			background-color: #ffb4b4;
+		}
+	</style>
+</head>
+<body>
+	<h1>Print Speed Test - Result</h1>
+	<p>Your accuracy: {{ result }}%</p>
+	<p>Here's the text you entered:</p>
+	<p>
+		{% for word, correct in zip(user_words, correct_words) %}
+			{% if correct %}
+				<span class="highlight">{{ word }}</span>
+			{% else %}
+				<span class="error">{{ word }}</span>
+			{% endif %}
+			{% if loop.index % 10 == 0 %}<br>{% endif %}
+		{% endfor %}
+	</p>
+	<p>Here's the original text:</p>
+	<p>
+		{% for word in test_words %}
+			{{ word }}
+			{% if loop.index % 10 == 0 %}<br>{% endif %}
+		{% endfor %}
+	</p>
+</body>
+</html>

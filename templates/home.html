@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Print Speed Test</title>
+	<style>
+		.highlight {
+			background-color: #c8f7c5;
+		}
+		.error {
+			background-color: #ffb4b4;
+		}
+	</style>
+</head>
+<body>
+	<h1>Print Speed Test</h1>
+	<p>Type the following text as quickly and accurately as you can:</p>
+	<p>{{ test_text }}</p>
+	<form method="POST" action="/">
+		<label for="user_text">Your input:</label><br>
+		<textarea id="user_text" name="user_text" rows="4" cols="50"></textarea><br><br>
+		<input type="submit" value="Submit">
+	</form>
+</body>
+</html>
