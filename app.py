@@ -3,10 +3,10 @@ from googletrans import Translator
 import re
 import requests
 from flask_wtf import Form
-from wtforms import SelectField, BooleanField
+from wtforms import SelectField, BooleanField, RadioField
 
 curr_language = 'en'
-words_count = 100
+words_count = 40
 punctuation = False
 
 def generate_text(language, words_count, punct):
@@ -32,17 +32,20 @@ app = Flask(__name__)
 class Buttons(Form):
     language = SelectField('Language', choices=[('en', 'English'), ('ru', 'Russian')], default='en')
     punct = BooleanField('Punctuation', default=False)
+    word = RadioField('Word Count', choices=[(10, 10), (40, 40), (100, 100)], default=40)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    global curr_language, punctuation
+    global curr_language, punctuation, words_count
     if request.method == 'POST':
         buttons = Buttons(request.form)
         new_language = str(buttons.language.data)
         new_punctuation = bool(buttons.punct.data)
-        if new_language != curr_language or new_punctuation != punctuation:
+        new_word_cnt = int(buttons.word.data)
+        if new_language != curr_language or new_punctuation != punctuation or new_word_cnt != words_count:
             curr_language = new_language
             punctuation = new_punctuation
+            words_count = new_word_cnt
             test_text = generate_text(curr_language, words_count, punctuation)
             return render_template('home.html', test_text=test_text, buttons=buttons)
             

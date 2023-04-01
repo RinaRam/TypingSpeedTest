@@ -21,12 +21,18 @@
 		<input type="submit" value="Submit">
 	</form>
 	<form method="POST" action="/">
-        {{ buttons.language.label }}{{ buttons.language(**{"onchange":"this.form.submit()"}) }}
-    </form>
+		{{ buttons.language.label }}{{ buttons.language(**{"onchange":"this.form.submit()"}) }}
+	</form>
 	<form method="POST" action="/">
-        {{ buttons.punct.label }}{{ buttons.punct(**{"onchange":"this.form.submit()"}) }}
-    </form>
-
-
+		{{ buttons.punct.label }}{{ buttons.punct(**{"onchange":"this.form.submit()"}) }}
+	</form>
+	<form method="POST" action="/">
+		{% for cnt in buttons.word %}
+		<tr>
+			<td>{{ cnt(**{"onchange":"this.form.submit()"}) }}</td>
+			<td>{{ cnt.label }}</td>
+		</tr>
+		{% endfor %}
+	</form>
 </body>
 </html>
