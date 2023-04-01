@@ -5,40 +5,15 @@ import requests
 from flask_wtf import Form
 from wtforms import SelectField
 
-def generate_text(lang, word, punctuation):
-    pass
+curr_language = 'en'
+words_count = 100
+punctuation = True #False
 
-app = Flask(__name__)
-
-class Buttons(Form):
-    language = SelectField('Language', choices=[('en', 'English'), ('ru', 'Russian')], default='en')
-
-@app.route('/', methods=['GET', 'POST'])
-def home():
-    buttons = Buttons()
-    curr_language = 'en'
-    if request.method == 'POST':
-        new_language = str(buttons.language.data)
-        if new_language != curr_language:
-            test_text = generate_text()
-        render_template('home.html', test_text=test_text, buttons=buttons)
-        test_text = request.form['test_text']
-        user_text = request.form['user_text']
-        result = calculate_result(test_text, user_text)
-        return render_template('result.html', result=result)
-    
-    words_count = 100
-    language = 'en'
-    if buttons.validate():
-        language = str(buttons.language.data)
-    punctuation = True #False
-
+def generate_text(language, words_count, punctuation):
     url = "https://fish-text.ru/get?&number=8"
     response = requests.get(url)
 
     if response.status_code == 200:
-        
-        
         data = response.json()['text']
         if (language == 'en'):
             translator = Translator()
@@ -49,9 +24,36 @@ def home():
             data = re.sub(r'[^\w\s]', '', data) 
         
         test_text = " ".join(data.split()[:words_count])
-        
+    return test_text
 
-    return render_template('home.html', test_text=test_text, buttons=buttons)
+        
+app = Flask(__name__)
+
+class Buttons(Form):
+    language = SelectField('Language', choices=[('en', 'English'), ('ru', 'Russian')], default='en')
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    global curr_language, words_count, punctuation
+    if request.method == 'POST':
+        buttons = Buttons(request.form)
+        new_language = str(buttons.language.data)
+        if new_language != curr_language:
+            curr_language = new_language
+            test_text = generate_text(curr_language, words_count, punctuation)
+            path = request.path
+            return render_template('home.html', test_text=test_text, buttons=buttons)
+            
+        test_text = request.form['test_text']
+        user_text = request.form['user_text']
+        result = calculate_result(test_text, user_text)
+        return render_template('result.html', result=result)
+    
+    if request.method == 'GET':  
+        buttons = Buttons(request.form)
+        test_text = generate_text(curr_language, words_count, punctuation)
+    
+iff     return render_template('home.html', test_text=test_text, buttons=buttons)
 
 def calculate_result(test_text, user_text):
     test_words = test_text.split()
@@ -61,4 +63,5 @@ def calculate_result(test_text, user_text):
     return accuracy
 
 if __name__ == '__main__':
+    print(curr_language)
     app.run(debug=True)
