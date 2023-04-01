@@ -9,6 +9,7 @@ flask = "*"
 flake8 = "*"
 pydocstyle = "*"
 jinja2 = "*"
+flask-wtf = "*"
 
 [dev-packages]
 
