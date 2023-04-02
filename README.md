@@ -28,3 +28,7 @@
 **Набор максимального количестdа слов за фиксированное время:**
 
 ![image](https://user-images.githubusercontent.com/20884054/227596882-0a4d4d97-1769-454e-8d97-e01564489bb5.png)
+
+## Статическая документация
+
+https://catherinefish.github.io/TypingSpeedTest/
