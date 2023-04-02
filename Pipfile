@@ -13,6 +13,7 @@ flask-wtf = "*"
 
 [dev-packages]
 sphinx = "*"
+yummy-sphinx-theme = "*"
 
 [requires]
 python_version = "3.10"
