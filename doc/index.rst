@@ -8,6 +8,7 @@ Welcome to TypingSpeedTest's documentation!
 
 It is a web application where you need type randomly generated tests on time as fast as possible. 
 
+
 **Opportunities**
 
 - Select the language of the text.
@@ -28,6 +29,7 @@ Minimum time for a fixed number of words.
    :maxdepth: 2
    :caption: Contents:
 
+   techDoc
 
 
 Indices and tables
