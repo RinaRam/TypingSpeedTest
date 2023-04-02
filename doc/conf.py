@@ -11,6 +11,7 @@ copyright = '2023, Chekhonina Ekaterina, Mudarova Ramina'
 author = 'Chekhonina Ekaterina, Mudarova Ramina'
 release = '0.1'
 
+language = "English"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
