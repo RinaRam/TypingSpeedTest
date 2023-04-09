@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Print Speed Test</title>
+	<title>{{ title }}</title>
 	<style>
 		.highlight {
 			background-color: #c8f7c5;
@@ -12,13 +12,13 @@
 	</style>
 </head>
 <body>
-	<h1>Print Speed Test</h1>
-	<p>Type the following text as quickly and accurately as you can:</p>
+	<h1>{{ title }}</h1>
+	<p>{{ instruction }}</p>
 	<p>{{ test_text }}</p>
 	<form method="POST" action="/">
-		<label for="user_text">Your input:</label><br>
+		<label for="user_text">{{ label_input }}</label><br>
 		<textarea id="user_text" name="user_text" rows="4" cols="50"></textarea><br><br>
-		<input type="submit" value="Submit">
+		<input type="submit" value="{{ submit_button }}">
 	</form>
 	<form method="POST" action="/">
 		{{ buttons.language.label }}{{ buttons.language(**{"onchange":"this.form.submit()"}) }}
