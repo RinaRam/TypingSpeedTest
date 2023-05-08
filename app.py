@@ -53,9 +53,6 @@ class Buttons(FlaskForm):
 
 
 @app.route('/', methods=['GET', 'POST'])
-
-
-
 def home():
     global curr_language, punctuation, words_count
     if request.method == 'POST':
