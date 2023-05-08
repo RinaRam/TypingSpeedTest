@@ -6,6 +6,7 @@ from flask_wtf import FlaskForm
 from wtforms import SelectField, BooleanField, RadioField
 import os
 from flask_babel import Babel, gettext as _
+from bs4 import BeautifulSoup
 
 SECRET_KEY = os.urandom(32)
 
@@ -15,20 +16,27 @@ words_count = 40
 punctuation = False
 
 def generate_text(language, words_count, punct):
-    url = "https://fish-text.ru/get?&number=8"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()['text']
+    if (language == 'en'):
+        url = "https://fauxid.com/tools/random-text-generator?language=en_US&paragraphs=3"
+        response = requests.get(url)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            data = soup.find_all('p')[1].get_text() + soup.find_all('p')[2].get_text() + soup.find_all('p')[3].get_text()
 
-        if (language == 'en'):
-            translator = Translator()
-            data = translator.translate(data, dest='en')
-            data = data.text
+            if not punct:
+                data = re.sub(r'[^\w\s]', '', data)
 
-        if not punct:
-            data = re.sub(r'[^\w\s]', '', data)
+            test_text = " ".join(data.split()[:words_count])
+    else: 
+        url = "https://fish-text.ru/get?&number=8"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()['text']
 
-        test_text = " ".join(data.split()[:words_count])
+            if not punct:
+                data = re.sub(r'[^\w\s]', '', data)
+
+            test_text = " ".join(data.split()[:words_count])
     return test_text
 
 
@@ -53,6 +61,9 @@ class Buttons(FlaskForm):
 
 
 @app.route('/', methods=['GET', 'POST'])
+
+
+
 def home():
     global curr_language, punctuation, words_count
     if request.method == 'POST':

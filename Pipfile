@@ -11,6 +11,7 @@ pydocstyle = "*"
 jinja2 = "*"
 flask-wtf = "*"
 flask-babel = "*"
+beautifulsoup4 = "*"
 
 [dev-packages]
 sphinx = "*"
