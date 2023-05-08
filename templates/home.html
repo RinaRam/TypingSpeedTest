@@ -10,6 +10,23 @@
 			background-color: #ffb4b4;
 		}
 	</style>
+	<script>
+		function startTimer() {
+			if (typeof startTime === 'undefined') {
+				startTime = Date.now();
+				setInterval(updateTimer, 1000);
+			}
+		}
+	</script>
+	<script>
+		function updateTimer() {
+			var elapsedTime = (Date.now() - startTime) / 1000;  // elapsed time in seconds
+			var wordCount = document.getElementById('user_text').value.split(/\s+/).length;  // word count
+			var wpm = Math.round(wordCount / (elapsedTime / 60));  // words per minute
+			document.getElementById('timer').textContent = elapsedTime.toFixed(1) + ' s';  // update timer
+			document.getElementById('wpm').textContent = wpm + ' WPM';  // update WPM
+		}
+	</script>	
 </head>
 <body>
 	<h1>{{ title }}</h1>
@@ -17,8 +34,9 @@
 	<p>{{ test_text }}</p>
 	<form method="POST" action="/">
 		<label for="user_text">{{ label_input }}</label><br>
-		<textarea id="user_text" name="user_text" rows="4" cols="50"></textarea><br><br>
+		<textarea id="user_text" name="user_text" rows="4" cols="50" oninput="startTimer()"></textarea><br><br>
 		<input type="submit" value="{{ submit_button }}">
+		<p><span id="timer">0 s</span> | <span id="wpm">0 WPM</span></p>
 	</form>
 	<form method="POST" action="/">
 		{{ buttons.language.label }}{{ buttons.language(**{"onchange":"this.form.submit()"}) }}
