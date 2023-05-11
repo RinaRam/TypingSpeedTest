@@ -38,19 +38,15 @@
 		<input type="submit" value="{{ submit_button }}">
 		<p><span id="timer">0 s</span> | <span id="wpm">0 WPM</span></p>
 	</form>
-	<form method="POST" action="/">
-		{{ buttons.language.label }}{{ buttons.language(**{"onchange":"this.form.submit()"}) }}
-	</form>
-	<form method="POST" action="/">
-		{{ buttons.punct.label }}{{ buttons.punct(**{"onchange":"this.form.submit()"}) }}
-	</form>
-	<form method="POST" action="/">
-		{% for cnt in buttons.word %}
-		<tr>
-			<td>{{ cnt(**{"onchange":"this.form.submit()"}) }}</td>
-			<td>{{ cnt.label }}</td>
-		</tr>
-		{% endfor %}
+    <form method="POST" action="/">
+        <p>{{ buttons.language.label }}{{ buttons.language(**{"onchange":"this.form.submit()"}) }}</p>
+		<p>{{ buttons.punct.label }}{{ buttons.punct(**{"onchange":"this.form.submit()"}) }}</p>
+		<p>{% for cnt in buttons.word %}
+            <tr>
+                <td>{{ cnt(**{"onchange":"this.form.submit()"}) }}</td>
+                <td>{{ cnt.label }}</td>
+            </tr>
+        {% endfor %}</p>
 	</form>
 </body>
 </html>
