@@ -1,11 +1,10 @@
 from flask import Flask, render_template, request
-from googletrans import Translator
 import re
 import requests
 from flask_wtf import FlaskForm
 from wtforms import SelectField, BooleanField, RadioField
 import os
-from flask_babel import Babel, gettext as _
+from flask_babel import Babel, lazy_gettext as _, force_locale
 from bs4 import BeautifulSoup
 
 SECRET_KEY = os.urandom(32)
@@ -46,13 +45,14 @@ def get_locale():
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
-#app.config['BABEL_DEFAULT_LOCALE'] = 'ru'
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 babel = Babel(app)
 babel.init_app(app, locale_selector=get_locale)
 
 class Buttons(FlaskForm):
     language = SelectField(_('Language'),
-                           choices=[('en', 'English'), ('ru', 'Russian')],
+                           choices=[('ru', 'Русский'),('en', 'English')],
                            default='en')
     punct = BooleanField(_('Punctuation'), default=False)
     word = RadioField(_('Word Count'),
@@ -62,29 +62,30 @@ class Buttons(FlaskForm):
 
 @app.route('/', methods=['GET', 'POST'])
 
-
-
 def home():
     global curr_language, punctuation, words_count
+    print(f"Current language: {curr_language}")
+    
     if request.method == 'POST':
         buttons = Buttons(request.form)
         new_language = str(buttons.language.data)
         new_punctuation = bool(buttons.punct.data)
         new_word_cnt = int(buttons.word.data)
         if (new_language != curr_language
-                or new_punctuation != punctuation
-                or new_word_cnt != words_count):
+                    or new_punctuation != punctuation
+                    or new_word_cnt != words_count):
             curr_language = new_language
             punctuation = new_punctuation
             words_count = new_word_cnt
             test_text = generate_text(curr_language, words_count, punctuation)
-            return render_template('home.html',
-                                   title=_("Print Speed Test"),
-                                   instruction=_("Type the following text as quickly and accurately as you can:"),
-                                   label_input = _("Your input:"),
-                                   submit_button = _("Submit"),
-                                   test_text=test_text,
-                                   buttons=buttons)
+            with force_locale(curr_language):
+                return render_template('home.html',
+                                        title=_('Print Speed Test'),
+                                        instruction=_('Type the following text as quickly and accurately as you can:'),
+                                        label_input = _('Your input:'),
+                                        submit_button = _('Submit'),
+                                        test_text=test_text,
+                                        buttons=buttons)
 
         test_text = request.form['test_text']
         user_text = request.form['user_text']
@@ -94,14 +95,14 @@ def home():
     if request.method == 'GET':
         buttons = Buttons(request.form)
         test_text = generate_text(curr_language, words_count, punctuation)
-
-        return render_template('home.html',
-                                title=_("Print Speed Test"),
-                                instruction=_("Type the following text as quickly and accurately as you can:"),
-                                label_input = _("Your input:"),
-                                submit_button = _("Submit"),
-                                test_text=test_text,
-                                buttons=buttons)
+        with force_locale(curr_language):
+            return render_template('home.html',
+                                        title=_("Print Speed Test"),
+                                        instruction=_("Type the following text as quickly and accurately as you can:"),
+                                        label_input = _("Your input:"),
+                                        submit_button = _("Submit"),
+                                        test_text=test_text,
+                                        buttons=buttons)
 
 
 def calculate_result(test_text, user_text):
