@@ -15,6 +15,7 @@ words_count = 40
 punctuation = False
 
 def generate_text(language, words_count, punct):
+    test_text = ""
     if (language == 'en'):
         url = "https://fauxid.com/tools/random-text-generator?language=en_US&paragraphs=3"
         response = requests.get(url)
