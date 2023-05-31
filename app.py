@@ -17,16 +17,18 @@ punctuation = False
 def generate_text(language, words_count, punct):
     test_text = ""
     if (language == 'en'):
-        url = "https://fauxid.com/tools/random-text-generator?language=en_US&paragraphs=3"
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            data = soup.find_all('p')[1].get_text() + soup.find_all('p')[2].get_text() + soup.find_all('p')[3].get_text()
+        url = "https://generatefakename.com/text"
+        data = ""
+        for i in range(3):
+            response = requests.get(url, verify=False)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.text, 'html.parser')
+                data += soup.find_all('h3')[0].get_text() + " "
 
-            if not punct:
-                data = re.sub(r'[^\w\s]', '', data)
+        if not punct:
+            data = re.sub(r'[^\w\s]', '', data[:-1])
 
-            test_text = " ".join(data.split()[:words_count])
+        test_text = " ".join(data.split()[:words_count])
     else: 
         url = "https://fish-text.ru/get?&number=8"
         response = requests.get(url)
