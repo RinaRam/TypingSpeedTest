@@ -72,7 +72,6 @@ class Buttons(FlaskForm):
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     global curr_language, punctuation, words_count
-    print(f"Current language: {curr_language}")
     
     if request.method == 'POST':
         buttons = Buttons(request.form)
@@ -115,14 +114,16 @@ def home():
 @app.route('/home2', methods=['GET', 'POST'])
 def maxWordFixedTime():
     global curr_language, punctuation, sec
-    print(f"!Current language: {curr_language}")
     
     if request.method == 'POST':
         buttons = Buttons(request.form)
         new_language = str(buttons.language.data)
         new_punctuation = bool(buttons.punct.data)
         new_sec = int(buttons.sec.data)
-        print("f{new_sec} {sec}")
+        if (request.form.get('submit_button') != None):
+        
+            # можно писать результат, иначе зайдет в следующий иф 
+            pass
         if (new_language != curr_language
                     or new_punctuation != punctuation
                     or new_sec != sec):
@@ -139,7 +140,7 @@ def maxWordFixedTime():
                                         test_text=test_text,
                                         buttons=buttons,
                                         sec=sec)
-
+        print("HERE")        
         test_text = request.form['test_text']
         user_text = request.form['user_text']
         result = calculate_result(test_text, user_text)
@@ -158,7 +159,9 @@ def maxWordFixedTime():
                                         buttons=buttons,
                                         sec=sec)
 
-
+@app.route('/result2', methods=['GET', 'POST'])
+def result():
+    return "result2"
 
 def calculate_result(test_text, user_text):
     test_words = test_text.split()
