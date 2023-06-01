@@ -99,9 +99,9 @@ def home():
         test_text = soup.find_all("p", {"name": "test_text"})[0].get_text()
         user_text = request.form['user_text']
         result = calculate_result(test_text, user_text)
-        return render_template('result.html', result=result,
-                                              user_words=user_text,
-                                              correct_words=test_text)
+        return render_template('result.html', result=round(result, 2),
+                                              user_words=user_text.split(),
+                                              correct_words=test_text.split())
 
     if request.method == 'GET':
         buttons = Buttons(request.form)
