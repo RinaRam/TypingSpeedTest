@@ -27,7 +27,7 @@
 	</p>
 	<p>Here's the original text:</p>
 	<p>
-		{% for word in test_words %}
+		{% for word in correct_words %}
 			{{ word }}
 			{% if loop.index % 10 == 0 %}<br>{% endif %}
 		{% endfor %}

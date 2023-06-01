@@ -31,7 +31,7 @@
 <body>
 	<h1>{{ title }}</h1>
 	<p>{{ instruction }}</p>
-	<p>{{ test_text }}</p>
+	<p name="test_text">{{ test_text }}</p>
 	<form method="POST" action="/home">
 		<label for="user_text">{{ label_input }}</label><br>
 		<textarea id="user_text" name="user_text" rows="4" cols="50" oninput="startTimer()"></textarea><br><br>
