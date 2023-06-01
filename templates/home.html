@@ -32,13 +32,13 @@
 	<h1>{{ title }}</h1>
 	<p>{{ instruction }}</p>
 	<p>{{ test_text }}</p>
-	<form method="POST" action="/">
+	<form method="POST" action="/home">
 		<label for="user_text">{{ label_input }}</label><br>
 		<textarea id="user_text" name="user_text" rows="4" cols="50" oninput="startTimer()"></textarea><br><br>
 		<input type="submit" value="{{ submit_button }}">
 		<p><span id="timer">0 s</span> | <span id="wpm">0 WPM</span></p>
 	</form>
-    <form method="POST" action="/">
+    <form method="POST" action="/home">
         <p>{{ buttons.language.label }}{{ buttons.language(**{"onchange":"this.form.submit()"}) }}</p>
 		<p>{{ buttons.punct.label }}{{ buttons.punct(**{"onchange":"this.form.submit()"}) }}</p>
 		<p>{% for cnt in buttons.word %}

@@ -13,8 +13,10 @@ SECRET_KEY = os.urandom(32)
 curr_language = 'en'
 words_count = 40
 punctuation = False
+sec = 60
 
 def generate_text(language, words_count, punct):
+    return "test text TODO"
     test_text = ""
     if (language == 'en'):
         url = "https://generatefakename.com/text"
@@ -61,13 +63,15 @@ class Buttons(FlaskForm):
     word = RadioField(_('Word Count'),
                       choices=[(10, 10), (40, 40), (100, 100)],
                       default=40)
+    sec = RadioField(_('Seconds'),
+                      choices=[(10, 10), (30, 30), (60, 60)],
+                      default=60)
+    
 
 
-@app.route('/', methods=['GET', 'POST'])
-
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     global curr_language, punctuation, words_count
-    print(f"Current language: {curr_language}")
     
     if request.method == 'POST':
         buttons = Buttons(request.form)
@@ -107,6 +111,57 @@ def home():
                                         test_text=test_text,
                                         buttons=buttons)
 
+@app.route('/home2', methods=['GET', 'POST'])
+def maxWordFixedTime():
+    global curr_language, punctuation, sec
+    
+    if request.method == 'POST':
+        buttons = Buttons(request.form)
+        new_language = str(buttons.language.data)
+        new_punctuation = bool(buttons.punct.data)
+        new_sec = int(buttons.sec.data)
+        if (request.form.get('submit_button') != None):
+        
+            # можно писать результат, иначе зайдет в следующий иф 
+            pass
+        if (new_language != curr_language
+                    or new_punctuation != punctuation
+                    or new_sec != sec):
+            curr_language = new_language
+            punctuation = new_punctuation
+            sec = new_sec
+            test_text = generate_text(curr_language, 40, punctuation)
+            with force_locale(curr_language):
+                return render_template('maxWordFixedTime.html',
+                                        title=_('Print Speed Test'),
+                                        instruction=_('Type the following text as quickly and accurately as you can:'),
+                                        label_input = _('Your input:'),
+                                        submit_button = _('Submit'),
+                                        test_text=test_text,
+                                        buttons=buttons,
+                                        sec=sec)
+        print("HERE")        
+        test_text = request.form['test_text']
+        user_text = request.form['user_text']
+        result = calculate_result(test_text, user_text)
+        return render_template('result.html', result=result)
+
+    if request.method == 'GET':
+        buttons = Buttons(request.form)
+        test_text = generate_text(curr_language, 40, punctuation)
+        with force_locale(curr_language):
+            return render_template('maxWordFixedTime.html',
+                                        title=_("Print Speed Test"),
+                                        instruction=_("Type the following text as quickly and accurately as you can:"),
+                                        label_input = _("Your input:"),
+                                        submit_button = _("Submit"),
+                                        test_text=test_text,
+                                        buttons=buttons,
+                                        sec=sec)
+
+@app.route('/result2', methods=['GET', 'POST'])
+def result():
+    return "result2"
 
 def calculate_result(test_text, user_text):
     test_words = test_text.split()
