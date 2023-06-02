@@ -6,6 +6,7 @@ from wtforms import SelectField, BooleanField, RadioField
 import os
 from flask_babel import Babel, lazy_gettext as _, force_locale
 from bs4 import BeautifulSoup
+from urllib.request import urlopen
 
 SECRET_KEY = os.urandom(32)
 
@@ -49,6 +50,7 @@ def get_locale():
     return request.accept_languages.best_match(translations)
 
 app = Flask(__name__)
+app.jinja_env.globals.update(zip=zip)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
@@ -78,6 +80,17 @@ def home():
         new_language = str(buttons.language.data)
         new_punctuation = bool(buttons.punct.data)
         new_word_cnt = int(buttons.word.data)
+        if (request.form.get('submit_button') != None):
+            soup = BeautifulSoup(urlopen(request.base_url), 'html.parser')
+            test_text = soup.find_all("p", {"name": "test_text"})[0].get_text()
+
+            user_text = request.form['user_text']
+            result = calculate_result(test_text, user_text)
+            return render_template('result.html', result=round(result, 2),
+                                                  user_words=user_text.split(),
+                                                  correct_words=test_text.split(),
+                                                  time=request.form['submit_button'])
+                
         if (new_language != curr_language
                     or new_punctuation != punctuation
                     or new_word_cnt != words_count):
@@ -93,11 +106,7 @@ def home():
                                         submit_button = _('Submit'),
                                         test_text=test_text,
                                         buttons=buttons)
-
-        test_text = request.form['test_text']
-        user_text = request.form['user_text']
-        result = calculate_result(test_text, user_text)
-        return render_template('result.html', result=result)
+        
 
     if request.method == 'GET':
         buttons = Buttons(request.form)
