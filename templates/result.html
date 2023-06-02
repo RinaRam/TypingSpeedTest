@@ -17,7 +17,7 @@
 	<p>Here's the text you entered:</p>
 	<p>
 		{% for word, correct in zip(user_words, correct_words) %}
-			{% if correct %}
+			{% if word == correct %}
 				<span class="highlight">{{ word }}</span>
 			{% else %}
 				<span class="error">{{ word }}</span>
@@ -27,10 +27,15 @@
 	</p>
 	<p>Here's the original text:</p>
 	<p>
-		{% for word in test_words %}
+		{% for word in correct_words %}
 			{{ word }}
 			{% if loop.index % 10 == 0 %}<br>{% endif %}
 		{% endfor %}
 	</p>
+	<p>Your time:</p>
+	<p>
+		{{ time }}
+	</p>
+	
 </body>
 </html>
