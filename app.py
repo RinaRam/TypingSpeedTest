@@ -7,6 +7,8 @@ import os
 from flask_babel import Babel, lazy_gettext as _, force_locale
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 SECRET_KEY = os.urandom(32)
 
@@ -17,7 +19,6 @@ punctuation = False
 sec = 60
 
 def generate_text(language, words_count, punct):
-    return "test text TODO"
     test_text = ""
     if (language == 'en'):
         url = "https://generatefakename.com/text"
@@ -98,8 +99,7 @@ def home():
             punctuation = new_punctuation
             words_count = new_word_cnt
             test_text = generate_text(curr_language, words_count, punctuation)
-            with force_locale(curr_language):
-                return render_template('home.html',
+            return render_template('home.html',
                                         title=_('Print Speed Test'),
                                         instruction=_('Type the following text as quickly and accurately as you can:'),
                                         label_input = _('Your input:'),
@@ -111,8 +111,7 @@ def home():
     if request.method == 'GET':
         buttons = Buttons(request.form)
         test_text = generate_text(curr_language, words_count, punctuation)
-        with force_locale(curr_language):
-            return render_template('home.html',
+        return render_template('home.html',
                                         title=_("Print Speed Test"),
                                         instruction=_("Type the following text as quickly and accurately as you can:"),
                                         label_input = _("Your input:"),
