@@ -80,6 +80,17 @@ def home():
         new_language = str(buttons.language.data)
         new_punctuation = bool(buttons.punct.data)
         new_word_cnt = int(buttons.word.data)
+        if (request.form.get('submit_button') != None):
+            soup = BeautifulSoup(urlopen(request.base_url), 'html.parser')
+            test_text = soup.find_all("p", {"name": "test_text"})[0].get_text()
+
+            user_text = request.form['user_text']
+            result = calculate_result(test_text, user_text)
+            return render_template('result.html', result=round(result, 2),
+                                                  user_words=user_text.split(),
+                                                  correct_words=test_text.split(),
+                                                  time=request.form['submit_button'])
+                
         if (new_language != curr_language
                     or new_punctuation != punctuation
                     or new_word_cnt != words_count):
@@ -95,13 +106,7 @@ def home():
                                         submit_button = _('Submit'),
                                         test_text=test_text,
                                         buttons=buttons)
-        soup = BeautifulSoup(urlopen(request.base_url), 'html.parser')
-        test_text = soup.find_all("p", {"name": "test_text"})[0].get_text()
-        user_text = request.form['user_text']
-        result = calculate_result(test_text, user_text)
-        return render_template('result.html', result=round(result, 2),
-                                              user_words=user_text.split(),
-                                              correct_words=test_text.split())
+        
 
     if request.method == 'GET':
         buttons = Buttons(request.form)
