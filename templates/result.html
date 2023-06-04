@@ -12,6 +12,13 @@
 	</style>
 </head>
 <body>
+	<header>
+		<nav>
+		{% for menu_item in ["home"] %}
+	  		<a href="{{ url_for(menu_item) }}">Back</a>
+		{% endfor %}
+	</nav>
+	</header>
 	<h1>Print Speed Test - Result</h1>
 	<p>Your accuracy: {{ result }}%</p>
 	<p>Here's the text you entered:</p>
