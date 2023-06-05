@@ -12,6 +12,7 @@ jinja2 = "*"
 flask-wtf = "*"
 flask-babel = "*"
 beautifulsoup4 = "*"
+pip-system-certs = "*"
 
 [dev-packages]
 sphinx = "*"
