@@ -33,13 +33,7 @@
 	</script>	
 </head>
 <body>
-	<header>
-		<nav>
-		{% for menu_item in ["home", "maxWordFixedTime"] %}
-	  		<a href="{{ url_for(menu_item) }}">{{ menu_item }}</a>
-		{% endfor %}
-	</nav>
-	</header>
+	{{ macros.menu_macros(["home", "maxWordFixedTime"], back=0) }}
 	<h1>{{ title }}</h1>
 	
 	<p>{{ instruction }}</p>
