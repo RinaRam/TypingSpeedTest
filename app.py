@@ -47,8 +47,6 @@ def get_locale():
 app = Flask(__name__)
 app.jinja_env.globals.update(zip=zip)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
-app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 babel = Babel(app)
 babel.init_app(app, locale_selector=get_locale)
 
