@@ -28,10 +28,15 @@
 					    // пишем текст вместо цифр
 					    document.getElementById("timer").innerHTML = "Всё!";
 					    document.getElementById("submit").disabled = false;
+						document.getElementById("user_text").disabled = true;
 
 					}
 				}, 1000);
 			}
+		}
+
+		function enableText() {
+			document.getElementById("user_text").disabled = false;
 		}
 		
 	</script>	
@@ -44,7 +49,7 @@
 	<form method="POST" action="/home2">
 		<label for="user_text">{{ label_input }}</label><br>
 		<textarea id="user_text" name="user_text" rows="4" cols="50" oninput="startTimer()"></textarea><br><br>
-		<input id="submit" type="submit" name="submit_button" value="{{ submit_button }}" disabled>
+		<input id="submit" type="submit" name="submit_button" value="{{ submit_button }}" disabled onclick="enableText()">
 		
 		<p><span id="timer">0 s</span> | <span id="wpm">0 WPM</span></p>
 	</form>

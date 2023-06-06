@@ -141,7 +141,7 @@ def maxWordFixedTime():
             curr_language = new_language
             punctuation = new_punctuation
             sec = new_sec
-            test_text = generate_text(curr_language, 40, punctuation)
+            test_text = generate_text(curr_language, 100, punctuation)
             with force_locale(curr_language):
                 return render_template('maxWordFixedTime.html',
                                         title=_('Print Speed Test'),
