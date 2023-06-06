@@ -13,6 +13,23 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 SECRET_KEY = os.urandom(32)
 
 
+def get_page(page_name):
+    buttons = Buttons(request.form)
+    session['curr_language'] = 'en'
+    session['punctuation'] = False
+    session['words_count'] = 40
+    session['sec'] = 60
+    session['test_text'] = generate_text(session['curr_language'], session['words_count'], session['punctuation'])
+    return render_template(page_name,
+                           title=_("Print Speed Test"),
+                           instruction=_("Type the following text as quickly and accurately as you can:"),
+                           label_input = _("Your input:"),
+                           submit_button = _("Submit"),
+                           test_text=session['test_text'],
+                           buttons=buttons,
+                           sec=session['sec'])
+
+
 def generate_text(language, words_count, punct):
     if (language == 'en'):
         url = "https://generatefakename.com/text"
@@ -103,19 +120,7 @@ def home():
         
 
     if request.method == 'GET':
-        buttons = Buttons(request.form)
-        session['curr_language'] = 'en'
-        session['punctuation'] = False
-        session['words_count'] = 40
-        session['test_text'] = generate_text(session['curr_language'], session['words_count'], session['punctuation'])
-
-        return render_template('home.html',
-                                        title=_("Print Speed Test"),
-                                        instruction=_("Type the following text as quickly and accurately as you can:"),
-                                        label_input = _("Your input:"),
-                                        submit_button = _("Submit"),
-                                        test_text=session['test_text'],
-                                        buttons=buttons)
+        return get_page('home.html')
 
 @app.route('/home2', methods=['GET', 'POST'])
 def maxWordFixedTime():
@@ -160,22 +165,7 @@ def maxWordFixedTime():
         return render_template('result2.html', result=result)
 
     if request.method == 'GET':
-        buttons = Buttons(request.form)
-        session['curr_language'] = 'en'
-        session['punctuation'] = False
-        session['words_count'] = 100
-        session['sec'] = 60
-        session['test_text'] = generate_text(session['curr_language'], session['words_count'], session['punctuation'])
-
-        with force_locale(session['curr_language']):
-            return render_template('maxWordFixedTime.html',
-                                        title=_("Print Speed Test"),
-                                        instruction=_("Type the following text as quickly and accurately as you can:"),
-                                        label_input = _("Your input:"),
-                                        submit_button = _("Submit"),
-                                        test_text=session['test_text'],
-                                        buttons=buttons,
-                                        sec=session['sec'])
+        return get_page('maxWordFixedTime.html')
 
 @app.route('/result2', methods=['GET', 'POST'])
 def result():
