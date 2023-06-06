@@ -12,6 +12,20 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 SECRET_KEY = os.urandom(32)
 
+def post_result(page_name):
+    user_text = request.form['user_text']
+    test_text = session.get('test_text', '')
+    result = calculate_result(test_text, user_text)
+    return render_template(page_name, result=round(result, 2),
+                                      user_words=user_text.split(),
+                                      correct_words=test_text.split(),
+                                      time=request.form['submit_button'] 
+                                           if page_name == "result.html" else 
+                                           session.get('sec', 60), 
+                                      entered_words_number=len(user_text.split()))
+
+
+
 
 def get_page(page_name):
     buttons = Buttons(request.form)
@@ -92,14 +106,7 @@ def home():
         new_word_cnt = int(buttons.word.data)
 
         if (request.form.get('submit_button') != None):
-            user_text = request.form['user_text']
-            test_text = session.get('test_text', '')
-            result = calculate_result(test_text, user_text)
-            return render_template('result.html', result=round(result, 2),
-                                                  user_words=user_text.split(),
-                                                  correct_words=test_text.split(),
-                                                  time=request.form['submit_button'], 
-                                                  entered_words_number=len(user_text.split()))
+            return post_result('result.html')
                 
         if (new_language != session.get('curr_language', 'en') 
                     or new_punctuation != session.get('punctuation', False)
@@ -132,14 +139,7 @@ def maxWordFixedTime():
         new_punctuation = bool(buttons.punct.data)
         new_sec = int(buttons.sec.data)
         if (request.form.get('submit_button') != None):
-            user_text = request.form['user_text']
-            test_text = session.get('test_text', '')
-            result = calculate_result(test_text, user_text)
-            return render_template('result2.html', result=round(result, 2),
-                                                  user_words=user_text.split(),
-                                                  correct_words=test_text.split(),
-                                                  time=session.get('sec', 60), 
-                                                  entered_words_number=len(user_text.split()))
+            return post_result('result2.html')
         
         if (new_language != session.get('curr_language', 'en') 
                     or new_punctuation != session.get('punctuation', False)
