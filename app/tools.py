@@ -2,6 +2,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
+
 def generate_text(language, words_count, punct):
     if (language == 'en'):
         url = "https://generatefakename.com/text"
@@ -16,7 +17,7 @@ def generate_text(language, words_count, punct):
             data = re.sub(r'[^\w\s]', ' ', data[:-1])
 
         test_text = " ".join(data.split()[:words_count])
-    else: 
+    else:
         url = "https://fish-text.ru/get?&number=8"
         response = requests.get(url)
         if response.status_code == 200:
