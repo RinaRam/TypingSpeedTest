@@ -90,7 +90,8 @@ def home():
             return render_template('result.html', result=round(result, 2),
                                                   user_words=user_text.split(),
                                                   correct_words=test_text.split(),
-                                                  time=request.form['submit_button'])
+                                                  time=request.form['submit_button'], 
+                                                  entered_words_number=len(user_text.split()))
                 
         if (new_language != curr_language
                     or new_punctuation != punctuation
@@ -129,9 +130,18 @@ def maxWordFixedTime():
         new_punctuation = bool(buttons.punct.data)
         new_sec = int(buttons.sec.data)
         if (request.form.get('submit_button') != None):
-        
-            # можно писать результат, иначе зайдет в следующий иф 
-            pass
+            soup = BeautifulSoup(urlopen(request.base_url), 'html.parser')
+            test_text = soup.find_all("p")[1].get_text()
+            print(test_text)
+
+            user_text = request.form['user_text']
+            result = calculate_result(test_text, user_text)
+            return render_template('result.html', result=round(result, 2),
+                                                  user_words=user_text.split(),
+                                                  correct_words=test_text.split(),
+                                                  time=sec, 
+                                                  entered_words_number=len(user_text.split()))
+
         if (new_language != curr_language
                     or new_punctuation != punctuation
                     or new_sec != sec):

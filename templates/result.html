@@ -1,3 +1,4 @@
+{% import "macros.html" as  macros %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,13 +13,7 @@
 	</style>
 </head>
 <body>
-	<header>
-		<nav>
-		{% for menu_item in ["home"] %}
-	  		<a href="{{ url_for(menu_item) }}">Back</a>
-		{% endfor %}
-	</nav>
-	</header>
+	{{ macros.menu_macros(["home"]) }}
 	<h1>Print Speed Test - Result</h1>
 	<p>Your accuracy: {{ result }}%</p>
 	<p>Here's the text you entered:</p>
@@ -39,10 +34,8 @@
 			{% if loop.index % 10 == 0 %}<br>{% endif %}
 		{% endfor %}
 	</p>
-	<p>Your time:</p>
-	<p>
-		{{ time }}
-	</p>
+	{{ macros.res_print_macros("Your time", time) }}
+	{{ macros.res_print_macros("The number of words you entered", entered_words_number) }}
 	
 </body>
 </html>

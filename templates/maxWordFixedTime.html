@@ -1,3 +1,4 @@
+{% import "macros.html" as  macros %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,13 +37,7 @@
 	</script>	
 </head>
 <body>
-	<header>
-		<nav>
-		{% for menu_item in ["home", "maxWordFixedTime"] %}
-	  		<a href="{{ url_for(menu_item) }}">{{ menu_item }}</a>
-		{% endfor %}
-	</nav>
-	</header>
+	{{ macros.menu_macros(["home", "maxWordFixedTime"]) }}
 	<h1>{{ title }}</h1>
 	<p>{{ instruction }}</p>
 	<p>{{ test_text }}</p>
