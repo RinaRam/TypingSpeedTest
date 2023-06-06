@@ -17,9 +17,9 @@ curr_language = 'en'
 words_count = 40
 punctuation = False
 sec = 60
+test_text = ""
 
 def generate_text(language, words_count, punct):
-    test_text = ""
     if (language == 'en'):
         url = "https://generatefakename.com/text"
         data = ""
@@ -74,7 +74,7 @@ class Buttons(FlaskForm):
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    global curr_language, punctuation, words_count
+    global curr_language, punctuation, words_count, test_text
     
     if request.method == 'POST':
         buttons = Buttons(request.form)
@@ -82,9 +82,6 @@ def home():
         new_punctuation = bool(buttons.punct.data)
         new_word_cnt = int(buttons.word.data)
         if (request.form.get('submit_button') != None):
-            soup = BeautifulSoup(urlopen(request.base_url), 'html.parser')
-            test_text = soup.find_all("p", {"name": "test_text"})[0].get_text()
-
             user_text = request.form['user_text']
             result = calculate_result(test_text, user_text)
             return render_template('result.html', result=round(result, 2),
@@ -122,7 +119,7 @@ def home():
 
 @app.route('/home2', methods=['GET', 'POST'])
 def maxWordFixedTime():
-    global curr_language, punctuation, sec
+    global curr_language, punctuation, sec, test_text
     
     if request.method == 'POST':
         buttons = Buttons(request.form)
@@ -130,13 +127,9 @@ def maxWordFixedTime():
         new_punctuation = bool(buttons.punct.data)
         new_sec = int(buttons.sec.data)
         if (request.form.get('submit_button') != None):
-            soup = BeautifulSoup(urlopen(request.base_url), 'html.parser')
-            test_text = soup.find_all("p")[1].get_text()
-            print(test_text)
-
             user_text = request.form['user_text']
             result = calculate_result(test_text, user_text)
-            return render_template('result.html', result=round(result, 2),
+            return render_template('result2.html', result=round(result, 2),
                                                   user_words=user_text.split(),
                                                   correct_words=test_text.split(),
                                                   time=sec, 
@@ -159,14 +152,14 @@ def maxWordFixedTime():
                                         buttons=buttons,
                                         sec=sec)
         print("HERE")        
-        test_text = request.form['test_text']
+        # test_text = request.form['test_text'] ## No .form['test_text'] in 'POST'
         user_text = request.form['user_text']
         result = calculate_result(test_text, user_text)
-        return render_template('result.html', result=result)
+        return render_template('result2.html', result=result)
 
     if request.method == 'GET':
         buttons = Buttons(request.form)
-        test_text = generate_text(curr_language, 40, punctuation)
+        test_text = generate_text(curr_language, 100, punctuation)
         with force_locale(curr_language):
             return render_template('maxWordFixedTime.html',
                                         title=_("Print Speed Test"),
