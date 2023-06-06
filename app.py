@@ -1,101 +1,11 @@
-from flask import Flask, render_template, request, session
-import re
-import requests
-from flask_wtf import FlaskForm
-from wtforms import SelectField, BooleanField, RadioField
+from flask import Flask, request
+from pages import post_result, post_page, get_page
 import os
-from flask_babel import Babel, lazy_gettext as _
-from bs4 import BeautifulSoup
+from flask_babel import Babel
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 SECRET_KEY = os.urandom(32)
-
-def post_result(page_name):
-    user_text = request.form['user_text']
-    test_text = session.get('test_text', '')
-    result = calculate_result(test_text, user_text)
-    return render_template(page_name, result=round(result, 2),
-                                      user_words=user_text.split(),
-                                      correct_words=test_text.split(),
-                                      time=request.form['submit_button'] 
-                                           if page_name == "result.html" else 
-                                           session.get('sec', 60), 
-                                      entered_words_number=len(user_text.split()))
-
-def post_page(page_name, result_page_name):
-    buttons = Buttons(request.form)
-    new_language = str(buttons.language.data)
-    new_punctuation = bool(buttons.punct.data)
-    new_sec = int(buttons.sec.data)
-    new_word_cnt = int(buttons.word.data)
-
-    if (request.form.get('submit_button') != None):
-        return post_result(result_page_name)
-    
-    if (new_language != session.get('curr_language', 'en') 
-        or new_punctuation != session.get('punctuation', False)
-        or (new_word_cnt != session.get('words_count', 40)
-            if page_name == "home.html" else False)):
-        
-        session['curr_language'] = new_language
-        session['punctuation'] = new_punctuation
-        session['sec'] = new_sec
-        session['words_count'] = new_word_cnt
-        session['test_text'] = generate_text(session['curr_language'], session['words_count'], session['punctuation'])
-        return render_template(page_name,
-                                title=_('Print Speed Test'),
-                                instruction=_('Type the following text as quickly and accurately as you can:'),
-                                label_input = _('Your input:'),
-                                submit_button = _('Submit'),
-                                test_text=session['test_text'],
-                                buttons=buttons,
-                                sec=session['sec'])
-
-
-def get_page(page_name):
-    buttons = Buttons(request.form)
-    session['curr_language'] = 'en'
-    session['punctuation'] = False
-    session['words_count'] = 40
-    session['sec'] = 60
-    session['test_text'] = generate_text(session['curr_language'], session['words_count'], session['punctuation'])
-    return render_template(page_name,
-                           title=_("Print Speed Test"),
-                           instruction=_("Type the following text as quickly and accurately as you can:"),
-                           label_input = _("Your input:"),
-                           submit_button = _("Submit"),
-                           test_text=session['test_text'],
-                           buttons=buttons,
-                           sec=session['sec'])
-
-
-def generate_text(language, words_count, punct):
-    if (language == 'en'):
-        url = "https://generatefakename.com/text"
-        data = ""
-        for i in range(3):
-            response = requests.get(url, verify=False)
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.text, 'html.parser')
-                data += soup.find_all('h3')[0].get_text() + " "
-
-        if not punct:
-            data = re.sub(r'[^\w\s]', ' ', data[:-1])
-
-        test_text = " ".join(data.split()[:words_count])
-    else: 
-        url = "https://fish-text.ru/get?&number=8"
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()['text']
-
-            if not punct:
-                data = re.sub(r'[^\w\s]', '', data)
-
-            test_text = " ".join(data.split()[:words_count])
-    return test_text
-
 
 def get_locale():
     translations = [str(translation) for translation in babel.list_translations()]
@@ -108,19 +18,6 @@ app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 babel = Babel(app)
 babel.init_app(app, locale_selector=get_locale)
-
-class Buttons(FlaskForm):
-    language = SelectField(_('Language'),
-                           choices=[('ru', 'Русский'),('en', 'English')],
-                           default='en')
-    punct = BooleanField(_('Punctuation'), default=False)
-    word = RadioField(_('Word Count'),
-                      choices=[(10, 10), (40, 40), (100, 100)],
-                      default=40)
-    sec = RadioField(_('Seconds'),
-                      choices=[(10, 10), (30, 30), (60, 60)],
-                      default=60)
-    
 
 
 @app.route('/home', methods=['GET', 'POST'])
@@ -139,12 +36,8 @@ def maxWordFixedTime():
     if request.method == 'GET':
         return get_page('maxWordFixedTime.html')
 
-def calculate_result(test_text, user_text):
-    test_words = test_text.split()
-    user_words = user_text.split()
-    correct_words = [t for t, u in zip(test_words, user_words) if t == u]
-    accuracy = len(correct_words) / len(test_words) * 100
-    return accuracy
-
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
