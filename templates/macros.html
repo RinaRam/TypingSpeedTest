@@ -1,0 +1,20 @@
+{% macro menu_macros(menu_list) %}
+    <header>
+      <nav>
+      {% for menu_item in menu_list %}
+          {% if ["maxWordFixedTime"] in menu_list %}
+            <a href="{{ url_for(menu_item) }}">{{ menu_item }}</a>
+          {% else %}
+            <a href="{{ url_for(menu_item) }}">Back</a>
+          {% endif %}
+      {% endfor %}
+    </nav>
+    </header>
+{%  endmacro  %}
+
+{% macro res_print_macros(title, val) %}
+    <p>{{ title}}:</p>
+    <p>
+      {{ val }}
+    </p>
+{%  endmacro  %}
