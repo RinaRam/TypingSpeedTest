@@ -23,7 +23,34 @@ def post_result(page_name):
                                            session.get('sec', 60), 
                                       entered_words_number=len(user_text.split()))
 
+def post_page(page_name, result_page_name):
+    buttons = Buttons(request.form)
+    new_language = str(buttons.language.data)
+    new_punctuation = bool(buttons.punct.data)
+    new_sec = int(buttons.sec.data)
+    new_word_cnt = int(buttons.word.data)
 
+    if (request.form.get('submit_button') != None):
+        return post_result(result_page_name)
+    
+    if (new_language != session.get('curr_language', 'en') 
+        or new_punctuation != session.get('punctuation', False)
+        or (new_word_cnt != session.get('words_count', 40)
+            if page_name == "home.html" else False)):
+        
+        session['curr_language'] = new_language
+        session['punctuation'] = new_punctuation
+        session['sec'] = new_sec
+        session['words_count'] = new_word_cnt
+        session['test_text'] = generate_text(session['curr_language'], session['words_count'], session['punctuation'])
+        return render_template(page_name,
+                                title=_('Print Speed Test'),
+                                instruction=_('Type the following text as quickly and accurately as you can:'),
+                                label_input = _('Your input:'),
+                                submit_button = _('Submit'),
+                                test_text=session['test_text'],
+                                buttons=buttons,
+                                sec=session['sec'])
 
 
 def get_page(page_name):
@@ -99,31 +126,7 @@ class Buttons(FlaskForm):
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        buttons = Buttons(request.form)
-        new_language = str(buttons.language.data)
-        new_punctuation = bool(buttons.punct.data)
-        new_word_cnt = int(buttons.word.data)
-
-        if (request.form.get('submit_button') != None):
-            return post_result('result.html')
-                
-        if (new_language != session.get('curr_language', 'en') 
-                    or new_punctuation != session.get('punctuation', False)
-                    or new_word_cnt != session.get('words_count', 40)):
-            
-            session['curr_language'] = new_language
-            session['punctuation'] = new_punctuation
-            session['words_count'] = new_word_cnt
-            session['test_text'] = generate_text(session['curr_language'], session['words_count'], session['punctuation'])
-            
-            return render_template('home.html',
-                                   title=_('Print Speed Test'),
-                                   instruction=_('Type the following text as quickly and accurately as you can:'),
-                                   label_input = _('Your input:'),
-                                   submit_button = _('Submit'),
-                                   test_text=session['test_text'],
-                                   buttons=buttons)
-        
+        return post_page('home.html', 'result.html')
 
     if request.method == 'GET':
         return get_page('home.html')
@@ -131,30 +134,7 @@ def home():
 @app.route('/home2', methods=['GET', 'POST'])
 def maxWordFixedTime():
     if request.method == 'POST':
-        buttons = Buttons(request.form)
-        new_language = str(buttons.language.data)
-        new_punctuation = bool(buttons.punct.data)
-        new_sec = int(buttons.sec.data)
-        if (request.form.get('submit_button') != None):
-            return post_result('result2.html')
-        
-        if (new_language != session.get('curr_language', 'en') 
-                    or new_punctuation != session.get('punctuation', False)
-                    or new_sec != session.get('sec', 60)):
-            
-            session['curr_language'] = new_language
-            session['punctuation'] = new_punctuation
-            session['sec'] = new_sec
-            session['test_text'] = generate_text(session['curr_language'], session['words_count'], session['punctuation'])
-            with force_locale(session['curr_language']):
-                return render_template('maxWordFixedTime.html',
-                                        title=_('Print Speed Test'),
-                                        instruction=_('Type the following text as quickly and accurately as you can:'),
-                                        label_input = _('Your input:'),
-                                        submit_button = _('Submit'),
-                                        test_text=session['test_text'],
-                                        buttons=buttons,
-                                        sec=session['sec'])
+        return post_page('maxWordFixedTime.html', 'result2.html')
 
     if request.method == 'GET':
         return get_page('maxWordFixedTime.html')
