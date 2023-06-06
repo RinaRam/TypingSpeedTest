@@ -4,9 +4,8 @@ import requests
 from flask_wtf import FlaskForm
 from wtforms import SelectField, BooleanField, RadioField
 import os
-from flask_babel import Babel, lazy_gettext as _, force_locale
+from flask_babel import Babel, lazy_gettext as _
 from bs4 import BeautifulSoup
-from urllib.request import urlopen
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -131,8 +130,6 @@ def home():
 
 @app.route('/home2', methods=['GET', 'POST'])
 def maxWordFixedTime():
-    global curr_language, punctuation, sec, test_text
-    
     if request.method == 'POST':
         buttons = Buttons(request.form)
         new_language = str(buttons.language.data)
@@ -158,18 +155,9 @@ def maxWordFixedTime():
                                         test_text=session['test_text'],
                                         buttons=buttons,
                                         sec=session['sec'])
-        print("HERE")        
-        # test_text = request.form['test_text'] ## No .form['test_text'] in 'POST'
-        user_text = request.form['user_text']
-        result = calculate_result(session['test_text'], user_text)
-        return render_template('result2.html', result=result)
 
     if request.method == 'GET':
         return get_page('maxWordFixedTime.html')
-
-@app.route('/result2', methods=['GET', 'POST'])
-def result():
-    return "result2"
 
 def calculate_result(test_text, user_text):
     test_words = test_text.split()
