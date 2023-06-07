@@ -2,7 +2,7 @@ from flask import render_template, request, session
 from flask_wtf import FlaskForm
 from wtforms import SelectField, BooleanField, RadioField
 from flask_babel import lazy_gettext as _
-from .tools import generate_text, calculate_result, calculate_cwpm
+from tools import generate_text, calculate_result, calculate_cwpm
 
 
 title=_('Print Speed Test')
@@ -12,6 +12,10 @@ submit_button = _('Submit')
 
 
 class Buttons(FlaskForm):
+    """
+    Класс, описывающий кнопки, отображаемые на 
+    страницах web-приложения
+    """
     language = SelectField(_('Language'),
                            choices=[('ru', 'Русский'),('en', 'English')],
                            default='en')
@@ -25,6 +29,13 @@ class Buttons(FlaskForm):
 
 
 def template_render(page_name, buttons):
+    """
+    Функция унифицированного рендеринга web-страниц
+
+    Ключевые аргументы:
+    page_name -- имя отображаемой страницы
+    buttons -- кнопки, располагаемые на странице page_name
+    """
     return render_template(page_name,
                            title=title,
                            instruction=instruction,
@@ -36,6 +47,13 @@ def template_render(page_name, buttons):
 
 
 def post_result(page_name):
+    """
+    Функция унифицированного рендеринга web-страниц результатов
+    для дальнейшего отображения в методе 'POST'
+
+    Ключевые аргументы:
+    page_name -- имя отображаемой страницы результатов
+    """
     user_text = request.form['user_text']
     test_text = session.get('test_text', '')
     result = calculate_result(test_text, user_text)
@@ -50,6 +68,14 @@ def post_result(page_name):
 
 
 def post_page(page_name, result_page_name):
+    """
+    Функция унифицированного рендеринга web-страниц
+    для дальнейшего отображения в методе 'POST'
+
+    Ключевые аргументы:
+    page_name -- имя отображаемой страницы
+    result_page_name -- имя страницы результатов, соответствующей странице page_name
+    """
     buttons = Buttons(request.form)
     new_language = str(buttons.language.data)
     new_punctuation = bool(buttons.punct.data)
@@ -75,6 +101,13 @@ def post_page(page_name, result_page_name):
         
 
 def get_page(page_name):
+    """
+    Функция унифицированного рендеринга web-страниц
+    для дальнейшего отображения в методе 'GET'
+
+    Ключевые аргументы:
+    page_name -- имя отображаемой страницы
+    """
     buttons = Buttons(request.form)
     session['curr_language'] = 'en'
     session['punctuation'] = False

@@ -4,6 +4,15 @@ from bs4 import BeautifulSoup
 
 
 def generate_text(language, words_count, punct):
+    """
+    Функция генерации текста
+
+    Ключевые аргументы:
+    language -- язык, на котором будет сгенерирован текст
+    words_count -- кол-во слов в генерируемом тексте
+    punct -- если True, то текст будет содержать знаки пунктуации, 
+    иначе - нет
+    """
     if (language == 'en'):
         url = "https://generatefakename.com/text"
         data = ""
@@ -31,6 +40,14 @@ def generate_text(language, words_count, punct):
 
 
 def calculate_result(test_text, user_text):
+    """
+    Функция подсчёта точности, в качестве метрики соответствия 
+    введенного текста оригинальному
+
+    Ключевые аргументы:
+    test_text -- оригинальный текст
+    user_text -- текст введённый пользователем
+    """
     test_words = test_text.split()
     user_words = user_text.split()
     correct_words = [t for t, u in zip(test_words, user_words) if t == u]
@@ -39,6 +56,16 @@ def calculate_result(test_text, user_text):
 
 
 def calculate_cwpm(test_text, user_text, sec):
+    """
+    Функция подсчёта скорости набора текста (кол-ва верно введённых 
+    слов в минуту), в качестве метрики соответствия введенного 
+    текста оригинальному при наборе за ограниченное время
+
+    Ключевые аргументы:
+    test_text -- оригинальный текст
+    user_text -- текст введённый пользователем
+    sec -- время отведённое на перепечатывание текста
+    """
     test_words = test_text.split()
     user_words = user_text.split()
     correct_words = [t for t, u in zip(test_words, user_words) if t == u]
