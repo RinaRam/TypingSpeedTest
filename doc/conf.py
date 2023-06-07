@@ -6,29 +6,23 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'TypingSpeedTest'
-copyright = '2023, Chekhonina Ekaterina, Mudarova Ramina'
-author = 'Chekhonina Ekaterina, Mudarova Ramina'
+project = 'Typing Speed Test'
+copyright = '2023, Мударова Рамина, Чехонина Екатерина'
+author = 'Мударова Рамина, Чехонина Екатерина'
 release = '0.1'
-
-language = "English"
-
-import os
-import sys
-sys.path.insert(0, os.path.abspath('..'))
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc']
+extensions = []
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = []
 
-
+language = 'ru'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'yummy_sphinx_theme'
+html_theme = 'alabaster'
 html_static_path = ['_static']
