@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-	{{ macros.menu_macros(["home", "maxWordFixedTime"]) }}
+	{{ macros.menu_macros(["home", "maxWordFixedTime"], [_("Fixed Word"), _("Fixed time")]) }}
 	<h1>{{ _('Print Speed Test - Result') }}</h1>
 	<form>
 		<p class="result">{{ _('Your accuracy: ') }}{{ result }}%</p>
