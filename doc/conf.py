@@ -15,8 +15,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'TypingSpeedTest'
-copyright = '2023, Chekhonina Ekaterina, Mudarova Ramina'
-author = 'Chekhonina Ekaterina, Mudarova Ramina'
+copyright = '2023, Mudarova Ramina, Chekhonina Ekaterina'
+author = 'Mudarova Ramina, Chekhonina Ekaterina'
 release = '0.1'
 
 language = "English"
