@@ -1,8 +1,10 @@
 from flask import Flask, request
-from pages import post_page, get_page
 import os
 from flask_babel import Babel
 import urllib3
+from .pages import post_page, get_page
+
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 SECRET_KEY = os.urandom(32)

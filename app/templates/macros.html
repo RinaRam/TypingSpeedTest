@@ -1,8 +1,8 @@
-{% macro menu_macros(menu_list) %}
+{% macro menu_macros(menu_list, name_list) %}
     <header>
       <nav>
-      {% for menu_item in menu_list %}
-        <a href="{{ url_for(menu_item) }}">{{ menu_item }}</a>
+      {% for menu_item, name_item in zip(menu_list, name_list) %}
+        <a href="{{ url_for(menu_item) }}">{{ name_item }}</a>
       {% endfor %}
     </nav>
     </header>
