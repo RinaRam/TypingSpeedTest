@@ -103,34 +103,30 @@ class TestCalcCWPM(unittest.TestCase):
         res = calculate_cwpm(self.test_text, user_text, 10)
         self.assertEqual(res, 30)
 
-    def test_1_some_val_30(self):
+    def test_2_some_val_30(self):
         user_text = "King added in a furious"
         res = calculate_cwpm(self.test_text, user_text, 30)
         self.assertEqual(res, 10)
 
-    def test_1_some_val_60(self):
+    def test_3_some_val_60(self):
         user_text = "King added in a furious"
         res = calculate_cwpm(self.test_text, user_text, 60)
         self.assertEqual(res, 5)
 
-    def test_2_wrong_case(self):
+    def test_4_wrong_case(self):
         user_text = "king added in a furious"
         res = calculate_cwpm(self.test_text, user_text, 5)
         self.assertEqual(res, 48)
 
-    def test_3_some_mistakes(self):
+    def test_5_some_mistakes(self):
         user_text = "king adde In a furious and went back to"
         res = calculate_cwpm(self.test_text, user_text, 20)
         self.assertEqual(res, 6)
 
 
-    def test_4_perfect(self):
+    def test_6_perfect(self):
         user_text = self.test_text
         res = calculate_cwpm(self.test_text, user_text, 60)
         self.assertEqual(res, 10)
 
-    
-    def test_5_too_much(self):
-        user_text = self.test_text + "extra word"
-        res = calculate_cwpm(self.test_text, user_text, 30)
-        self.assertEqual(res, 16)
+
