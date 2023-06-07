@@ -1,3 +1,6 @@
 Pipfile.lock
 __pycache__/
 *.mo
+build/
+dist/
+TypingSpeedTest.egg-info/

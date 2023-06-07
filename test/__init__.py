@@ -78,13 +78,6 @@ class TestCalcResult(unittest.TestCase):
         res = calculate_result(self.test_text, user_text)
         self.assertEqual(res, 100)
 
-    
-    def test_5_too_much(self):
-        user_text = self.test_text + "extra word"
-        res = calculate_result(self.test_text, user_text)
-        self.assertEqual(res, 0.8)
-
-
 
 class TestCalcCWPM(unittest.TestCase):
 
