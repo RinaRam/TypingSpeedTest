@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Подготовка &#8212; документация Typing Speed Test 0.1</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Подготовка<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Предлагается запускать приложение из-под виртуального окружения с помощью pipenv (гарантируется, что указаны все необходимы установки). Однако и без виртуального окружения приложение тоже будет работать.</p>
+<p>Выполните следующие команды:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">TestApp</span>
+<span class="n">cd</span> <span class="n">TestApp</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="n">pipenv</span>
+<span class="n">pipenv</span> <span class="n">shell</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">CatherineFish</span><span class="o">/</span><span class="n">TypingSpeedTest</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">TypingSpeedTest</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="n">doit</span> <span class="n">build</span> <span class="n">babel</span> <span class="c1"># основные модули</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="n">sphinx</span> <span class="n">flake8</span> <span class="n">pydocstyle</span> <span class="c1"># дополнительные модули</span>
+<span class="n">doit</span> <span class="n">wheel</span>
+<span class="n">cd</span> <span class="o">..</span>
+<span class="n">mkdir</span> <span class="n">test_wheel</span>
+<span class="n">cd</span> <span class="n">test_wheel</span>
+<span class="n">TODO</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h1>Запуск<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Для запуска приложения на английском языке выполните:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LC_ALL</span><span class="o">=</span><span class="s2">&quot;en_US.UTF-8&quot;</span> <span class="n">python3</span> <span class="n">app</span><span class="o">/</span><span class="n">main</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Для запуска приложения на русском языке выполните:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LC_ALL</span><span class="o">=</span><span class="s2">&quot;ru_RU.UTF-8&quot;</span> <span class="n">python3</span> <span class="n">app</span><span class="o">/</span><span class="n">TypingSpeedTest</span>
+</pre></div>
+</div>
+<p>Для выхода из виртуального окружения необходимо выполнить команду:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">exit</span>
+</pre></div>
+</div>
+</section>
+<section id="doit">
+<h1>Задачи doit<a class="headerlink" href="#doit" title="Ссылка на этот заголовок">¶</a></h1>
+<section id="pot">
+<h2>Задача pot<a class="headerlink" href="#pot" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>doit pot
+</pre></div>
+</div>
+<p>Эта задача пересоздает шаблон .pot. Она выполняет следующую команду:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pybabel extract -F babel.cfg -o messages.pot .
+</pre></div>
+</div>
+</section>
+<section id="po">
+<h2>Задача po<a class="headerlink" href="#po" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>doit po
+</pre></div>
+</div>
+<p>Эта задача обновляет перевод. Она выполняет следующую команду:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pybabel update -D messages -d ./app/translations -i messages.pot
+</pre></div>
+</div>
+</section>
+<section id="mo">
+<h2>Задача mo<a class="headerlink" href="#mo" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>doit mo
+</pre></div>
+</div>
+<p>Эта задача компилирует перевод. Она создает необходимые папки и выполняет следующую команду:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pybabel compile -d app/translations
+</pre></div>
+</div>
+</section>
+<section id="myclean">
+<h2>Задача myclean<a class="headerlink" href="#myclean" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>doit myclean
+</pre></div>
+</div>
+<p>Эта задача очищает все генерированные файлы. Она выполняет следующую команду:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clean -fdx
+</pre></div>
+</div>
+</section>
+<section id="test">
+<h2>Задача test<a class="headerlink" href="#test" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>doit <span class="nb">test</span>
+</pre></div>
+</div>
+<p>Эта задача запускает все тесты. Она выполняет следующую команду:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 -m unittest -v
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Typing Speed Test</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Мударова Рамина, Чехонина Екатерина.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Quickstart.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
