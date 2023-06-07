@@ -1,0 +1,8 @@
+flask
+jinja2
+flask-wtf
+flask-babel
+beautifulsoup4
+pip-system-certs
+urllib3
+requests
