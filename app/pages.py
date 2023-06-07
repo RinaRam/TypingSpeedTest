@@ -1,27 +1,27 @@
 from flask import render_template, request, session
-from wtforms import SelectField, BooleanField, RadioField
 from flask_wtf import FlaskForm
+from wtforms import SelectField, BooleanField, RadioField
 from flask_babel import lazy_gettext as _
-from tools import generate_text, calculate_result
+from tools import generate_text, calculate_result, calculate_cwpm
 
 
-title = _('Print Speed Test')
-instruction = _('Type the text as quickly and accurately as you can:')
+title=_('Print Speed Test')
+instruction=_('Type the following text as quickly and accurately as you can:')
 label_input = _('Your input:')
 submit_button = _('Submit')
 
 
 class Buttons(FlaskForm):
     language = SelectField(_('Language'),
-                           choices=[('ru', 'Русский'), ('en', 'English')],
+                           choices=[('ru', 'Русский'),('en', 'English')],
                            default='en')
     punct = BooleanField(_('Punctuation'), default=False)
     word = RadioField(_('Word Count'),
                       choices=[(10, 10), (40, 40), (100, 100)],
                       default=40)
     sec = RadioField(_('Seconds'),
-                     choices=[(10, 10), (30, 30), (60, 60)],
-                     default=60)
+                      choices=[(10, 10), (30, 30), (60, 60)],
+                      default=60)
 
 
 def template_render(page_name, buttons):
@@ -53,34 +53,35 @@ def post_page(page_name, result_page_name):
     buttons = Buttons(request.form)
     new_language = str(buttons.language.data)
     new_punctuation = bool(buttons.punct.data)
-    new_sec = int(buttons.sec.data)
     new_word_cnt = int(buttons.word.data)
-
-    if (request.form.get('submit_button') is not None):
-        return post_result(result_page_name)
-
-    if (new_language != session.get('curr_language', 'en')
-        or new_punctuation != session.get('punctuation', False)
-        or (new_word_cnt != session.get('words_count', 40)
+    new_sec = int(buttons.sec.data)
+    
+    if (request.form.get('submit_button') != None):
+    	return post_result(result_page_name)
+    if (new_language != session.get('curr_language', 'en') 
+    	or new_punctuation != session.get('punctuation', False) 
+        or (new_word_cnt != session.get('words_count', 40) 
             if page_name == "home.html" else False)):
-
         session['curr_language'] = new_language
         session['punctuation'] = new_punctuation
-        session['sec'] = new_sec
         session['words_count'] = new_word_cnt
-        session['test_text'] = generate_text(session['curr_language'],
-                                             session['words_count'],
+        session['test_text'] = generate_text(session['curr_language'], 
+                                             session['words_count'], 
                                              session['punctuation'])
-        return template_render(page_name, buttons)
-
+    if (new_sec != session.get('sec', 60)):
+        session['sec'] = new_sec
+    
+    return template_render(page_name, buttons)
+        
 
 def get_page(page_name):
     buttons = Buttons(request.form)
     session['curr_language'] = 'en'
     session['punctuation'] = False
     session['words_count'] = 40
-    session['sec'] = 60
-    session['test_text'] = generate_text(session['curr_language'],
-                                         session['words_count'],
+    session['test_text'] = generate_text(session['curr_language'], 
+                                         session['words_count'], 
                                          session['punctuation'])
+    session['sec'] = 60
     return template_render(page_name, buttons)
+

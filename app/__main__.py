@@ -9,16 +9,12 @@ SECRET_KEY = os.urandom(32)
 
 
 def get_locale():
-    translations = [str(translation) for translation
-                    in babel.list_translations()]
-    return request.accept_languages.best_match(translations)
+    return os.environ.get('LC_ALL', 'en_US.UTF-8')[:2]
 
 
 app = Flask(__name__)
 app.jinja_env.globals.update(zip=zip)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
-app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 babel = Babel(app)
 babel.init_app(app, locale_selector=get_locale)
 
@@ -43,3 +39,4 @@ def maxWordFixedTime():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

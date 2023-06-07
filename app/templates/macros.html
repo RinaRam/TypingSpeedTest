@@ -1,0 +1,23 @@
+{% macro menu_macros(menu_list) %}
+    <header>
+      <nav>
+      {% for menu_item in menu_list %}
+        <a href="{{ url_for(menu_item) }}">{{ menu_item }}</a>
+      {% endfor %}
+    </nav>
+    </header>
+{%  endmacro  %}
+
+{% macro res_print_macros(title, val) %}
+    <p>{{ title}}:</p>
+    <p>
+      {{ (val|int) |round(2) }}
+    </p>
+{%  endmacro  %}
+
+{% macro words_per_minute_macro(label, time, words, css_class='') %}
+    <p class="{{ css_class }}">{{ label }} {{ ((words|int)/(time|float/60))|round(2) }}</p>
+{% endmacro %}
+
+
+
