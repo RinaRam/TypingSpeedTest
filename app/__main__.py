@@ -1,5 +1,5 @@
 from flask import Flask, request
-from pages import post_page, get_page
+from .pages import post_page, get_page
 import os
 from flask_babel import Babel
 import urllib3
