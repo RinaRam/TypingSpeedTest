@@ -32,7 +32,6 @@ class TestGenTest(unittest.TestCase):
         text = generate_text("ru", 40, False)
         self.assertEqual(len(text.split()), 40)
 
-
     def test_4_100(self):
         text = generate_text("ru", 100, False)
         self.assertEqual(len(text.split()), 100)
