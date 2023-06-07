@@ -2,7 +2,7 @@ from flask import render_template, request, session
 from flask_wtf import FlaskForm
 from wtforms import SelectField, BooleanField, RadioField
 from flask_babel import lazy_gettext as _
-from tools import generate_text, calculate_result, calculate_cwpm
+from .tools import generate_text, calculate_result, calculate_cwpm
 
 
 title=_('Print Speed Test')
