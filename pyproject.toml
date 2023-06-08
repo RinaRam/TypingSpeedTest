@@ -28,7 +28,7 @@ repository = "https://github.com/CatherineFish/TypingSpeedTest"
 
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["sphinx", "yummy-sphinx-theme", "doit", "flake8", "pydocstyle", "build", "setuptools"]
+requires = ["sphinx", "doit", "flake8", "pydocstyle", "build", "setuptools"]
 
 
 [tool.setuptools.package-dir]
