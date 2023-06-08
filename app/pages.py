@@ -1,3 +1,4 @@
+"""Модуль pages.py содержит классы и функции, используемые для работы страниц приложения Flask."""
 from flask import render_template, request, session
 from flask_wtf import FlaskForm
 from wtforms import SelectField, BooleanField, RadioField
@@ -6,16 +7,14 @@ from .tools import generate_text, calculate_result, calculate_cwpm
 
 
 title = _('Print Speed Test')
-instruction = _('Type the text as quickly and accurately as you can:')
+instruction = _('Type the following text as quickly and accurately as you can:')
 label_input = _('Your input:')
 submit_button = _('Submit')
 
 
 class Buttons(FlaskForm):
-    """
-    Класс, описывающий кнопки, отображаемые на 
-    страницах web-приложения
-    """
+    """Класс Buttons, содержащий поля формы для страницы."""
+
     language = SelectField(_('Language'),
                            choices=[('ru', 'Русский'), ('en', 'English')],
                            default='en')
@@ -29,13 +28,7 @@ class Buttons(FlaskForm):
 
 
 def template_render(page_name, buttons):
-    """
-    Функция унифицированного рендеринга web-страниц
-
-    Ключевые аргументы:
-    page_name -- имя отображаемой страницы
-    buttons -- кнопки, располагаемые на странице page_name
-    """
+    """Функция для отображения шаблона страницы."""
     return render_template(page_name,
                            title=title,
                            instruction=instruction,
@@ -47,16 +40,13 @@ def template_render(page_name, buttons):
 
 
 def post_result(page_name):
-    """
-    Функция унифицированного рендеринга web-страниц результатов
-    для дальнейшего отображения в методе 'POST'
-
-    Ключевые аргументы:
-    page_name -- имя отображаемой страницы результатов
-    """
+    """Функция для обработки результатов после отправки формы на странице."""
     user_text = request.form['user_text']
     test_text = session.get('test_text', '')
-    result = calculate_result(test_text, user_text)
+    if page_name == "result.html":
+    	result = calculate_result(test_text, user_text)
+    else:
+    	result = calculate_cwpm(test_text, user_text, session.get('sec', 60))
     return render_template(page_name,
                            result=round(result, 2),
                            user_words=user_text.split(),
@@ -68,14 +58,7 @@ def post_result(page_name):
 
 
 def post_page(page_name, result_page_name):
-    """
-    Функция унифицированного рендеринга web-страниц
-    для дальнейшего отображения в методе 'POST'
-
-    Ключевые аргументы:
-    page_name -- имя отображаемой страницы
-    result_page_name -- имя страницы результатов, соответствующей странице page_name
-    """
+    """Функция для обработки POST запроса на странице."""
     buttons = Buttons(request.form)
     new_language = str(buttons.language.data)
     new_punctuation = bool(buttons.punct.data)
@@ -101,13 +84,7 @@ def post_page(page_name, result_page_name):
 
 
 def get_page(page_name):
-    """
-    Функция унифицированного рендеринга web-страниц
-    для дальнейшего отображения в методе 'GET'
-
-    Ключевые аргументы:
-    page_name -- имя отображаемой страницы
-    """
+    """Функция для обработки GET запроса на странице."""
     buttons = Buttons(request.form)
     session['curr_language'] = 'en'
     session['punctuation'] = False

@@ -1,15 +1,27 @@
+"""
+Это приложение Flask, которое обслуживает две страницы.
+
+Каждая страница выполняет специфическую функцию, связанную с обработкой текста.
+"""
+
 from flask import Flask, request
-from .pages import post_page, get_page
 import os
 from flask_babel import Babel
 import urllib3
+from .pages import post_page, get_page
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 SECRET_KEY = os.urandom(32)
 
 
 def get_locale():
-    """Функция получения значения установлненной локали"""
+    """
+    Получает локаль из переменной среды.
+
+    По умолчанию 'en_US.UTF-8', если не указана.
+    Возвращает только первые два символа локали.
+    """
     return os.environ.get('LC_ALL', 'en_US.UTF-8')[:2]
 
 
@@ -23,8 +35,10 @@ babel.init_app(app, locale_selector=get_locale)
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     """
-    Функция отображения страницы /home, её результата 
-    и обработки изменений на ней
+    Обслуживает страницу 'home.html'.
+
+    Если метод запроса POST, обрабатывает форму и возвращает результат.
+    Если метод запроса GET, возвращает страницу 'home.html'.
     """
     if request.method == 'POST':
         return post_page('home.html', 'result.html')
@@ -36,8 +50,10 @@ def home():
 @app.route('/home2', methods=['GET', 'POST'])
 def maxWordFixedTime():
     """
-    Функция отображения страницы /home2, её результата 
-    и обработки изменений на ней
+    Обслуживает страницу 'maxWordFixedTime.html'.
+
+    Если метод запроса POST, обрабатывает форму и возвращает результат.
+    Если метод запроса GET, возвращает страницу 'maxWordFixedTime.html'.
     """
     if request.method == 'POST':
         return post_page('maxWordFixedTime.html', 'result2.html')
