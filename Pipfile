@@ -16,7 +16,6 @@ requests = "*"
 
 [dev-packages]
 sphinx = "*"
-yummy-sphinx-theme = "*"
 flake8 = "*"
 pydocstyle = "*"
 doit = "*"
