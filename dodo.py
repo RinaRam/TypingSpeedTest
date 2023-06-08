@@ -29,12 +29,6 @@ def task_test():
     return {'actions': ['python3 -m unittest -v'], }
 
 
-def task_sdist():
-    """Сборка архива с исходниками."""
-    return {'actions': ['python3 -m build -s'],
-            'task_dep': ['myclean'], }
-
-
 def task_wheel():
     """Сборка wheel."""
     return {'actions': ['pyproject-build -w -n'],

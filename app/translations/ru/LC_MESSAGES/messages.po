@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-08 11:25+0300\n"
+"POT-Creation-Date: 2023-06-08 11:46+0300\n"
 "PO-Revision-Date: 2023-06-06 20:10+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,78 +19,101 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/pages.py:8
+#: app/pages.py:8 build/lib/TypingSpeedTest/pages.py:8
 msgid "Print Speed Test"
 msgstr "Тест скорости печати"
 
-#: app/pages.py:9
+#: app/pages.py:9 build/lib/TypingSpeedTest/pages.py:9
 msgid "Type the following text as quickly and accurately as you can:"
 msgstr "Введите следующий текст как можно быстрее и точнее"
 
-#: app/pages.py:10
+#: app/pages.py:10 build/lib/TypingSpeedTest/pages.py:10
 msgid "Your input:"
 msgstr "Ваш текст:"
 
-#: app/pages.py:11
+#: app/pages.py:11 build/lib/TypingSpeedTest/pages.py:11
 msgid "Submit"
 msgstr "Принять"
 
-#: app/pages.py:15
+#: app/pages.py:15 build/lib/TypingSpeedTest/pages.py:15
 msgid "Language"
 msgstr "Язык"
 
-#: app/pages.py:18
+#: app/pages.py:18 build/lib/TypingSpeedTest/pages.py:18
 msgid "Punctuation"
 msgstr "Пунктуация"
 
-#: app/pages.py:19
+#: app/pages.py:19 build/lib/TypingSpeedTest/pages.py:19
 msgid "Word Count"
 msgstr "Количество слов"
 
-#: app/pages.py:22
+#: app/pages.py:22 build/lib/TypingSpeedTest/pages.py:22
 msgid "Seconds"
 msgstr "Время (в секундах)"
 
 #: app/templates/home.html:30 app/templates/maxWordFixedTime.html:38
 #: app/templates/result.html:9 app/templates/result2.html:9
+#: build/lib/TypingSpeedTest/templates/home.html:30
+#: build/lib/TypingSpeedTest/templates/maxWordFixedTime.html:38
+#: build/lib/TypingSpeedTest/templates/result.html:9
+#: build/lib/TypingSpeedTest/templates/result2.html:9
 msgid "Fixed Word"
 msgstr "Фиксированное количество слов"
 
 #: app/templates/home.html:30 app/templates/maxWordFixedTime.html:38
 #: app/templates/result.html:9 app/templates/result2.html:9
+#: build/lib/TypingSpeedTest/templates/home.html:30
+#: build/lib/TypingSpeedTest/templates/maxWordFixedTime.html:38
+#: build/lib/TypingSpeedTest/templates/result.html:9
+#: build/lib/TypingSpeedTest/templates/result2.html:9
 msgid "Fixed time"
 msgstr "Фиксированное время"
 
 #: app/templates/result.html:5 app/templates/result.html:10
 #: app/templates/result2.html:5 app/templates/result2.html:10
+#: build/lib/TypingSpeedTest/templates/result.html:5
+#: build/lib/TypingSpeedTest/templates/result.html:10
+#: build/lib/TypingSpeedTest/templates/result2.html:5
+#: build/lib/TypingSpeedTest/templates/result2.html:10
 msgid "Print Speed Test - Result"
 msgstr "Тест скорости печати - Результат"
 
 #: app/templates/result.html:12
+#: build/lib/TypingSpeedTest/templates/result.html:12
 msgid "Your accuracy: "
 msgstr "Ваша точность: "
 
 #: app/templates/result.html:13
+#: build/lib/TypingSpeedTest/templates/result.html:13
 msgid "Words per minute: "
 msgstr "Слов в минуту: "
 
 #: app/templates/result.html:14 app/templates/result2.html:13
+#: build/lib/TypingSpeedTest/templates/result.html:14
+#: build/lib/TypingSpeedTest/templates/result2.html:13
 msgid "Here's the text you entered:"
 msgstr "Вот текст, который вы ввели:"
 
 #: app/templates/result.html:25 app/templates/result2.html:24
+#: build/lib/TypingSpeedTest/templates/result.html:25
+#: build/lib/TypingSpeedTest/templates/result2.html:24
 msgid "Here's the original text:"
 msgstr "Вот исходный текст:"
 
 #: app/templates/result.html:34 app/templates/result2.html:33
+#: build/lib/TypingSpeedTest/templates/result.html:34
+#: build/lib/TypingSpeedTest/templates/result2.html:33
 msgid "Your time"
 msgstr "Ваше время"
 
 #: app/templates/result.html:35 app/templates/result2.html:34
+#: build/lib/TypingSpeedTest/templates/result.html:35
+#: build/lib/TypingSpeedTest/templates/result2.html:34
 msgid "The number of words you entered"
 msgstr "Количество введенных вами слов"
 
 #: app/templates/result2.html:12
+#: build/lib/TypingSpeedTest/templates/result2.html:12
 msgid "Correct Words Per Minute: "
 msgstr "Кол-во верно введённых слов в минуту: "
 
