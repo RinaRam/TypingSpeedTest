@@ -17,7 +17,7 @@ def generate_text(language, words_count, punct):
             data = re.sub(r'[^\w\s]', ' ', data[:-1])
 
         test_text = " ".join(data.split()[:words_count])
-    else: 
+    else:
         url = "https://fish-text.ru/get?&number=8"
         response = requests.get(url)
         if response.status_code == 200:
@@ -44,4 +44,3 @@ def calculate_cwpm(test_text, user_text, sec):
     correct_words = [t for t, u in zip(test_words, user_words) if t == u]
     cwpm = len(correct_words) * 60 / sec
     return cwpm
-

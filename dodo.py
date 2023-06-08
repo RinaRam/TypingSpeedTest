@@ -23,6 +23,28 @@ def task_myclean():
     """Очистка всех генератов."""
     return {'actions': ['git clean -fdx'], }
 
+
 def task_test():
     """Запустить тесты."""
     return {'actions': ['python3 -m unittest -v'], }
+
+
+def task_wheel():
+    """Сборка wheel."""
+    return {'actions': ['pyproject-build -w -n'],
+            'task_dep': ['mo'], }
+
+
+def task_html():
+    """Создание HTML документации."""
+    return {'actions': ['cd doc; make html'], }
+
+
+def task_style():
+    """Проверка стиля кода согласно flake8."""
+    return {'actions': ['flake8 app']}
+
+
+def task_docstyle():
+    """Проверка стиля кода согласно pydocstyle."""
+    return {'actions': ['pydocstyle app']}
