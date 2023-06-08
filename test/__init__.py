@@ -16,6 +16,7 @@ en = re.compile(r"[^A-Za-z\s]")
 
 
 class TestGenTest(unittest.TestCase):
+    """Класс тестов генерации текста"""
 
     def test_0_ru(self):
         text = generate_text("ru", 10, False)
@@ -47,6 +48,7 @@ class TestGenTest(unittest.TestCase):
 
 
 class TestCalcResult(unittest.TestCase):
+    """Класс тестов для страницы /home"""
 
     def setUp(self):
         self.test_text = '''
@@ -80,6 +82,7 @@ class TestCalcResult(unittest.TestCase):
 
 
 class TestCalcCWPM(unittest.TestCase):
+    """Класс тестов для страницы /home2"""
 
     def setUp(self):
         self.test_text = '''
