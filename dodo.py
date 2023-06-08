@@ -43,7 +43,7 @@ def task_wheel():
 
 def task_html():
     """Создание HTML документации."""
-    return {'actions': ['sphinx-build -M html doc build'], }
+    return {'actions': ['cd doc; make html'], }
 
 
 def task_style():
