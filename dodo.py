@@ -23,6 +23,7 @@ def task_myclean():
     """Очистка всех генератов."""
     return {'actions': ['git clean -fdx'], }
 
+
 def task_test():
     """Запустить тесты."""
     return {'actions': ['python3 -m unittest -v'], }
