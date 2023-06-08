@@ -1,6 +1,6 @@
 [project]
 name = "TypingSpeedTest"
-version = "0.0.1"
+version = "0.1.2"
 description = "Exam project for PythonDevelopment2023 course"
 readme = "README.md"
 requires-python = ">=3.8"

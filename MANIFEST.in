@@ -1,5 +1,5 @@
 recursive-include app *
-recursive-include tests *
+recursive-include test *
 recursive-include doc *
 include *.py
 include *.md
